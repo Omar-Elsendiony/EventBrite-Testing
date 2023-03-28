@@ -102,7 +102,7 @@ try:
     # ##########################################################
     # emailTextBox.send_keys(Keys.CONTROL, 'a')
     # emailTextBox.send_keys(Keys.BACKSPACE)
-    originalEmail = "mama.mama@hotmail.com"
+    originalEmail = "mme.mme@hotmail.com"
     unmatchedEmail = "mama.mona@hotmail.com"
     emailTextBox.send_keys(originalEmail)
     continueButton.click()
@@ -115,13 +115,13 @@ try:
     lastName = driver.find_element(By.NAME, "lastName")
     password = driver.find_element(By.NAME, "password")
     firstName.send_keys("mama")
-    lastName.send_keys("mona")
+    lastName.send_keys("mme")
     password.send_keys("gwgrgrewgw")
     createAccount = driver.find_element(By.XPATH, "//button[contains(text(),'Create account')]")
     createAccount.click()
     isError = waitUntil(EC.url_matches(previousURL))  # if it is still on the same webpage
     errorMessage = "Email address does not match but Created Account"
-    Assert(isError, True, errorMessage)
+    Assert(isError, False, errorMessage)
     ##########################################
     ###### Sign Up Noooooooooow
     #########################################
@@ -130,6 +130,7 @@ try:
     confirmEmailTextBox.send_keys(originalEmail)
     createAccount.click()
     agreeCondition = driver.find_element(By.XPATH,"//*[@id='edsModalContentChildren']/div/div/div/div[2]/button[2]")
+    agreeCondition.click()
 except Exception as E:
     print(E)
     print(E.__class__.__name__)

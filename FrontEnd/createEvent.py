@@ -84,7 +84,7 @@ try:
     organizer = "Abbas Bin Farnas"
     eventBasicInfo = driver.find_element(By.ID,"event-basicInfo-title")
     eventBasicInfo.send_keys(eventInfo)
-    organizerName = driver.find_element(By.NAME,"organizerName")
+    organizerName = driver.find_element(By.NAME,"organizerProfile")
     organizerName.send_keys(organizer)
     select = Select(driver.find_element(By.ID,"eventType"))
     select.select_by_visible_text('Attraction')
@@ -122,9 +122,9 @@ try:
     select = Select(driver.find_element(By.NAME,"locale"))
     select.select_by_visible_text('English (Canada)')
     #################################################################
-    month = "MARCH"
-    year = "2024"
-    wDay = "9"
+    month = "JULY"
+    year = "2023"
+    wDay = "13"
     startDate = driver.find_element(By.NAME,"event-startDate")
     endDate = driver.find_element(By.NAME,"event-endDate")
     # startDate.click()
