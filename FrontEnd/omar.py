@@ -25,14 +25,14 @@ loginBtn = driver.find_element(By.XPATH,'//*[@id="app"]/div[1]/div/div[1]/div/di
 
 
 # txtUsername.clear()
-txtUserName.send_keys("Admin")
-txtPass.send_keys("admin123")
-loginBtn.click()
-
-# print(txtUsername.is_displayed())
-# print(username.is_enabled())
-
-# time.sleep(2)
-print(driver.title)
+# txtUserName.send_keys("Admin")
+# txtPass.send_keys("admin123")
+# loginBtn.click()
+#
+# # print(txtUsername.is_displayed())
+# # print(username.is_enabled())
+#
+# # time.sleep(2)
+# print(driver.title)
 # driver.forward()
 input()
