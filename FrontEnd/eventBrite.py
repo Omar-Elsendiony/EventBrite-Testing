@@ -70,39 +70,39 @@ try:
     #######################################################
     # invalid account format test
     #########################################################
-    # emailTextBox.send_keys("gsgs.hhs")
-    # emailTextBox.clear()
+    emailTextBox.send_keys("gsgs.hhs")
+    emailTextBox.clear()
 
-    # continueButton.click()
-    # emailTextBoxTitle = emailTextBox.get_attribute("title")
-    # print(emailTextBoxTitle)
-    # isLoggedIn = waitUntil(EC.staleness_of(continueButton))
-    # errorMessage = "Trying signing up with an invalid account format"
-    # Assert(isLoggedIn,False,errorMessage)
-    # ####################################################
-    # # check entering account is already signed up
-    # ##################################################
-    # # editAddress = driver.find_element(By.XPATH,"//*[@id='root']/div/div[2]/div/div/div/div[1]/div/main/div/div[1]/div/form/div[1]/div[1]/div/div/div/span/span/button")
-    # # emailTextBox.click()
-    # driver.implicitly_wait(4)
-    # ######## Clearing the text Box By another way as the conventional .clear() method does not work
-    # emailTextBox.send_keys(Keys.CONTROL, 'a')
-    # emailTextBox.send_keys(Keys.BACKSPACE)
-    # #######################################
-    # emailTextBox.clear()
-    # # emailTextBox.set
-    # # editAddress.click()
-    # emailTextBox.send_keys("omar.elsendiony@hotmail.com")
-    # continueButton.click()
-    # isSignedUp = driver.find_element(By.XPATH,"//div/strong[contains(text(),'There is an account associated with the email')]")
-    # errorMessage = "Trying Signing up with an already signed up account"
-    # Assert(isSignedUp,True,errorMessage)
+    continueButton.click()
+    emailTextBoxTitle = emailTextBox.get_attribute("title")
+    print(emailTextBoxTitle)
+    isLoggedIn = waitUntil(EC.staleness_of(continueButton))
+    errorMessage = "Trying signing up with an invalid account format"
+    Assert(isLoggedIn,False,errorMessage)
+    ####################################################
+    # check entering account is already signed up
+    ##################################################
+    # editAddress = driver.find_element(By.XPATH,"//*[@id='root']/div/div[2]/div/div/div/div[1]/div/main/div/div[1]/div/form/div[1]/div[1]/div/div/div/span/span/button")
+    # emailTextBox.click()
+    driver.implicitly_wait(4)
+    ######## Clearing the text Box By another way as the conventional .clear() method does not work
+    emailTextBox.send_keys(Keys.CONTROL, 'a')
+    emailTextBox.send_keys(Keys.BACKSPACE)
+    #######################################
+    emailTextBox.clear()
+    # emailTextBox.set
+    # editAddress.click()
+    emailTextBox.send_keys("omar.elsendiony@hotmail.com")
+    continueButton.click()
+    isSignedUp = driver.find_element(By.XPATH,"//div/strong[contains(text(),'There is an account associated with the email')]")
+    errorMessage = "Trying Signing up with an already signed up account"
+    Assert(isSignedUp,True,errorMessage)
     # ###############################################################
     # # sign in Email address doesn't match. Please try again
     # ##########################################################
-    # emailTextBox.send_keys(Keys.CONTROL, 'a')
-    # emailTextBox.send_keys(Keys.BACKSPACE)
-    originalEmail = "mme.mme@hotmail.com"
+    emailTextBox.send_keys(Keys.CONTROL, 'a')
+    emailTextBox.send_keys(Keys.BACKSPACE)
+    originalEmail = "remonda.tALAAT@hotmail.com"
     unmatchedEmail = "mama.mona@hotmail.com"
     emailTextBox.send_keys(originalEmail)
     continueButton.click()
