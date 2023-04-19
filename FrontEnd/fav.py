@@ -55,12 +55,15 @@ try:
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//div[contains(text(),'Browse online events')]")))
     driver.execute_script("window.scrollBy(0,1000)","")
     online2=funcs.ClickFnHttp(driver, "//div[contains(text(),'Browse online events')]", 1)
-    fav=funcs.ClickFnHttp(driver, "//span[@class='eds-event-card__actions-id__433499116527 eds-event-card-content__actions-container__action eds-l-pad-all-1 eds-event-card-content__actions-icon--primary']//i[@class='eds-vector-image eds-icon--small eds-vector-image--block']//*[name()='svg']//*[name()='path' and @id='heart-chunky_svg__eds-icon--heart-chunky_base']", 1)
+    fav=funcs.ClickFnHttp(driver, "//span[@class='eds-event-card__actions-id__385150915757 eds-event-card-content__actions-container__action eds-l-pad-all-1 eds-event-card-content__actions-icon--primary']//i[@class='eds-vector-image eds-icon--small eds-vector-image--block']//*[name()='svg']", 1)
     
+    fav= driver.find_element(By.XPATH,"//*[@id='panel10']/div/section[1]/div/div/div/div[2]/div/div/article/div[1]/div[3]/span/span/button")
+    ActionChains(driver).move_to_element(fav).click(fav).perform()
+    driver.implicitly_wait(3)
     b=funcs.ClickFnHttp(driver, "//div[@class='consumer-header__content consumer-header__desktop eds-show-up-md']//div[@class='consumer-header__links']//div[1]//a[1]//span[1]//i[1]//*[name()='svg']", 1)
-
     try:
-        button = driver.find_element(by=By.XPATH,value="//article[@class='eds-l-pad-all-3 eds-event-card-content eds-event-card-content--list eds-event-card-content--standard eds-event-card-content--fixed eds-event-card-content--focused']//div[@role='presentation'][contains(text(),'We The Medicine -')]")
+        button = driver.find_element(by=By.XPATH,value="//*[name()='path' and @id='heart-fill-chunky_svg__eds-icon--heart-fill-chunky_base']")
+        
         print("Added to Favorites")
     except:
         print("No Likes")

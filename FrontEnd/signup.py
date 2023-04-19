@@ -16,7 +16,7 @@ driver = webdriver.Chrome(PATH)
 driver.get("https://venerable-fenglisu-3497d9.netlify.app")
 time.sleep(1)
 
-LoginButtonOut = funcs.ClickFnHttp(driver, "//button[@id='loginBtn']", 1)
+SignUpButtonOut = funcs.ClickFnHttp(driver, "//button[@id='signupBtn']", 1)
 
 F = open('C:/Users/Seif Albaghdady/Documents/GitHub/EventBrite-Testing/FrontEnd/TestCases/EmailTestCases.txt', 'r')
 Emails = [Email.rstrip('\n') for Email in F.readlines()] # Makes a list containing all email test cases
@@ -26,6 +26,8 @@ Passwords = [Password.rstrip('\n') for Password in F.readlines()]  # Makes a lis
 F.close()
 counter = 0  # counts number of cases tested
 
+FName='Seif'
+LName='Albaghdady'
 for Email in Emails:
     for Password in Passwords:
         # Locates the email field, password field, and the login button
@@ -42,12 +44,18 @@ for Email in Emails:
             time.sleep(1)
             EmailField = funcs.SendKeysFnHttp(driver, "//input[@type='email']", Email, 1)  # Writes the email in the email field
             # time.sleep(1)
-            PasswordField = funcs.SendKeysFnHttp(driver, "//input[@type='password']", Password, 1)  # Writes the password in the password field
+            #PasswordField = funcs.SendKeysFnHttp(driver, "//input[@type='password']", Password, 1)  # Writes the password in the password field
+            continuee=funcs.ClickFnHttp(driver, "//button[@id='submit-button']", 1)
+            EmailFieldConfirm = funcs.SendKeysFnHttp(driver, "//input[@id='emailConfirm']", Email, 1)  # Writes the email in the email field
+            FirstName= funcs.SendKeysFnHttp(driver, "//input[@id='firstName-input']", FName, 1)  # Writes the email in the email field
+            LastName= funcs.SendKeysFnHttp(driver, "//input[@id='lastName-input']", LName, 1)  # Writes the email in the email field
+            PasswordField = funcs.SendKeysFnHttp(driver, "//input[@id='password-input']", Password, 1)  # Writes the password in the password field
             
+            submit=funcs.ClickFnHttp(driver, "//button[@id='submit-button']", 1)
             #if (i%2 == 0):
                 #time.sleep(1) 
                 #ShowPassword = funcs.ClickFnHttp(driver, "//i[@class='eds-vector-image eds-icon--small eds-vector-image--block']//*[name()='svg']", 1)
-                
+            verify=funcs.ClickFnHttp(driver, "//button[@id='SignupVerifyModal-AcceptButton']", 1)
             time.sleep(1)
             #<button class="header-button" id="loginBtn">Log In</button>
 

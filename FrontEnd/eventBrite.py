@@ -7,7 +7,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.common.exceptions import (TimeoutException, NoSuchElementException, ElementNotVisibleException)
-
+import funcs
+import time
 # import logging
 ######################################################################
 opts = webdriver.ChromeOptions()
@@ -22,14 +23,22 @@ desiredC = {
     "class": "org.openqa.selenium.Proxy",
     "autodetect": False
 }
-websiteURL = "https://www.eventbrite.co.uk/signin/signup"
-serv_obj = Service("O:\DriveFiles\Drivers\chromedriver_win32 (1)\chromedriver.exe")
+#websiteURL = "https://www.eventbrite.co.uk/signin/signup"
+PATH = "C:\Program Files (x86)\chromedriver.exe"
+driver = webdriver.Chrome(PATH)
 
-driver = webdriver.Chrome(service=serv_obj, options=opts, desired_capabilities=desiredC)
-driver.get(websiteURL)
-driver.maximize_window()
+driver.get("https://venerable-fenglisu-3497d9.netlify.app")
+
+
+SignUpButtonOut = funcs.ClickFnHttp(driver, "//button[@id='signupBtn']", 1)
+
+#serv_obj = Service("O:\DriveFiles\Drivers\chromedriver_win32 (1)\chromedriver.exe")
+
+#driver = webdriver.Chrome(service=serv_obj, options=opts, desired_capabilities=desiredC)
+#driver.get(websiteURL)
+#driver.maximize_window()
 # logging.basicConfig(filename="test.log",format="%(message)s",level=logging.DEBUG)
-action = ActionChains(driver)
+#action = ActionChains(driver)
 
 
 ######################################################################
@@ -66,7 +75,21 @@ try:
     ##########################################################
     WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, "//body")))
     emailTextBox = driver.find_element(By.NAME, "email")
+    F = open('C:/Users/Seif Albaghdady/Documents/GitHub/EventBrite-Testing/FrontEnd/TestCases/EmailTestCases.txt', 'r')
+    Emails = [Email.rstrip('\n') for Email in F.readlines()] # Makes a list containing all email test cases
+    F.close()
+    F = open('C:/Users/Seif Albaghdady/Documents/GitHub/EventBrite-Testing/FrontEnd/TestCases/PasswordTestCases.txt', 'r')
+    Passwords = [Password.rstrip('\n') for Password in F.readlines()]  # Makes a list containing all Password test cases
+    F.close()
+    ##########################################################
+    originalEmail = "mme.mme@hotmail.com"
+    unmatchedEmail = "mama.mona@hotmail.com"
+    EmailField = funcs.SendKeysFnHttp(driver, "//id='email-input'", originalEmail, 1)  # Writes the email in the email field
+    
     continueButton = driver.find_element(By.XPATH, "//button[contains(text(),'Continue')]")
+    time.sleep(2)
+    confirmEmailTextBox = funcs.SendKeysFnHttp(driver, "//id='emailConfirm'", unmatchedEmail, 1)  # Writes the email in the email field
+    
     #######################################################
     # invalid account format test
     #########################################################
@@ -102,23 +125,30 @@ try:
     # ##########################################################
     # emailTextBox.send_keys(Keys.CONTROL, 'a')
     # emailTextBox.send_keys(Keys.BACKSPACE)
-    originalEmail = "mme.mme@hotmail.com"
-    unmatchedEmail = "mama.mona@hotmail.com"
+    
+    
     emailTextBox.send_keys(originalEmail)
     continueButton.click()
     driver.implicitly_wait(2)
-    confirmEmailTextBox = driver.find_element(By.NAME, 'emailConfirmation')
-    confirmEmailTextBox.send_keys(unmatchedEmail)
+
+    #EmailField = funcs.SendKeysFnHttp(driver, "//id='email-input'", originalEmail, 1)  # Writes the email in the email field
+    confirmEmailTextBox = funcs.SendKeysFnHttp(driver, "//id='emailConfirm'", unmatchedEmail, 1)  # Writes the email in the email field
+    #confirmEmailTextBox = driver.find_element(By.NAME, 'emailConfirmation')
+    #confirmEmailTextBox.send_keys(unmatchedEmail)
     # EC.presence_of_element_located((By.XPATH,'//*[@id="twotabsearchtextbox"]'))
     # confirmEmailError = driver.find_element(By.XPATH,"//div/aside[contains(text(),'Email address doesn't match. Please try again')]")
-    firstName = driver.find_element(By.NAME, "firstName")
-    lastName = driver.find_element(By.NAME, "lastName")
-    password = driver.find_element(By.NAME, "password")
-    firstName.send_keys("mama")
-    lastName.send_keys("mme")
-    password.send_keys("gwgrgrewgw")
-    createAccount = driver.find_element(By.XPATH, "//button[contains(text(),'Create account')]")
-    createAccount.click()
+    fname="mama"
+    firstName = funcs.SendKeysFnHttp(driver, "//id='firstName-input'", fname, 1)  # Writes the email in the email field
+    time.sleep(1)
+    lastName = funcs.SendKeysFnHttp(driver, "//id='lastName-input'", "mme", 1)  # Writes the email in the email field
+    time.sleep(1)
+    password = funcs.SendKeysFnHttp(driver, "//id='password-input'", "gwgrgrewgw", 1)  # Writes the email in the email field
+
+    createAccount = funcs.ClickFnHttp(driver, "//id='submit-button'", 1)
+    #createAccount = driver.find_element(By.XPATH, "//button[contains(text(),'Create account')]")
+
+    #createAccount.click()
+
     isError = waitUntil(EC.url_matches(previousURL))  # if it is still on the same webpage
     errorMessage = "Email address does not match but Created Account"
     Assert(isError, False, errorMessage)
