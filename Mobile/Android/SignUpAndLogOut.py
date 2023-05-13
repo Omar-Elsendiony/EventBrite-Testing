@@ -13,7 +13,7 @@ command_exec = "http://localhost:4723/wd/hub"
 desired_cap = {
 "appium:deviceName": "RF8NB0G1KVT",
   "platformName": "Android",
-    "app":"C:/Users/moga/Downloads/Phase3_final_version.apk"
+    "app":"O:/DriveFiles/Testing/app-release.apk"
 }
 
 desiredCap = {
@@ -29,33 +29,36 @@ def waitUntilClickable( by, timeout):
     return WebDriverWait.until(EC.element_to_be_clickable(by), timeout)
 
 driver = webdriver.Remote(command_exec,desired_cap,None,None,True)
+WebDriverWait(driver, 12).until(EC.presence_of_element_located((By.XPATH, "//android.view.View/android.widget.Button")))
+myEmail = "omar.sendiony@gmail.com"
+myFirstName = "omar"
+mySurName = "Sendo"
+myPassword = "gigrgrwgg52lany"
+driver.implicitly_wait(3)
+
+profileTab = driver.find_element(By.XPATH,"//android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/child::android.view.View[3]/child::android.view.View[5]")
+
+homeTab = driver.find_element(By.XPATH,"//android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/child::android.view.View[3]/child::android.view.View[1]")
+
+searchTab = driver.find_element(By.XPATH,"//android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/child::android.view.View[3]/child::android.view.View[2]")
+
+likedTab = driver.find_element(By.XPATH,"//android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/child::android.view.View[3]/child::android.view.View[3]")
+
+ticketsTab = driver.find_element(By.XPATH,"//android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/child::android.view.View[3]/child::android.view.View[1]")
+
+chooseEvent = driver.find_elements(By.XPATH,"//android.view.View[@content-desc='Learn']/child::android.widget.ImageView")
 
 
-
-driver.implicitly_wait(5)
-
-#   Clicking on the loginTab
-actions = ActionChains(driver)
-actions.w3c_actions = ActionBuilder(driver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch"))
-actions.w3c_actions.pointer_action.move_to_location(959, 2194)
-actions.w3c_actions.pointer_action.pointer_down()
-actions.w3c_actions.pointer_action.pause(0.1)
-actions.w3c_actions.pointer_action.release()
-actions.perform()
-################
-
-driver.implicitly_wait(2)
+driver.implicitly_wait(3)
+# logIn = allTabs[1]
+profileTab.click()
 
 loginButton = driver.find_element(AppiumBy.ACCESSIBILITY_ID, value='Log In')
 loginButton.click()
 
+###  Choosing to sign in with already signed up account not facebook nor google #######
 continueWith = driver.find_element(By.XPATH,"//android.widget.Button[@content-desc='Continue with email address']")
 continueWith.click()
-
-myEmail = "remondaT@live.com"
-
-
-action = TouchAction(driver=driver)
 driver.implicitly_wait(3)
 enterEmail = driver.find_elements(AppiumBy.CLASS_NAME,"android.widget.EditText")
 enterEmail[0].click()
@@ -87,15 +90,16 @@ confirmEmail.send_keys("yogilany@hotmail.com")
 
 driver.hide_keyboard()
 firstName.click()
-firstName.send_keys("youssef")
+firstName.send_keys(myFirstName)
 
 driver.hide_keyboard()
 surName.click()
-surName.send_keys("gilany")
+surName.send_keys(mySurName)
 
 driver.hide_keyboard()
 password.click()
-password.send_keys("gigrgrwgg52lany")
+password.send_keys(myPassword)
+
 
 
 driver.implicitly_wait(5)
