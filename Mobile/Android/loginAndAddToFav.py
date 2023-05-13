@@ -9,12 +9,23 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.common.by import By 
 from appium.webdriver.common.touch_action import TouchAction
 #######################################################
+home = 3
+search = 4
+profile = 0
+tickets = 1
+likedList = 2
+
+def waitUntilClickable(driver, by, timeout):
+    return WebDriverWait(driver,timeout).until(by)
+#####################################################
+
 command_exec = "http://localhost:4723/wd/hub"
 desired_cap = {
 "appium:deviceName": "RF8NB0G1KVT",
   "platformName": "Android",
-    "app":"C:/Users/moga/Downloads/Phase3_final_version.apk"
+    "app":"O:/DriveFiles/Testing/app-release.apk"
 }
+
 
 desiredCap = {
   "appium:deviceName": "emulator-5554",
@@ -25,35 +36,39 @@ desiredCap = {
   "appium:newCommandTimeout": 240,
   "app":"C:/Users/moga/Downloads/Phase3_final_version.apk"
 }
-def waitUntilClickable( by, timeout):
-    return WebDriverWait.until(EC.element_to_be_clickable(by), timeout)
+
 
 driver = webdriver.Remote(command_exec,desired_cap,None,None,True)
+# mainScreen = driver.find_element(By.XPATH,"//android.view.View")
+WebDriverWait(driver, 12).until(EC.presence_of_element_located((By.XPATH, "//android.view.View/android.widget.Button")))
+
+driver.implicitly_wait(3)
 
 
+profileTab = driver.find_element(By.XPATH,"//android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/child::android.view.View[3]/child::android.view.View[5]")
 
-driver.implicitly_wait(5)
+homeTab = driver.find_element(By.XPATH,"//android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/child::android.view.View[3]/child::android.view.View[1]")
 
-#   Clicking on the loginTab
-actions = ActionChains(driver)
-actions.w3c_actions = ActionBuilder(driver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch"))
-actions.w3c_actions.pointer_action.move_to_location(959, 2194)
-actions.w3c_actions.pointer_action.pointer_down()
-actions.w3c_actions.pointer_action.pause(0.1)
-actions.w3c_actions.pointer_action.release()
-actions.perform()
-################
-# loginTab = driver.find_element(By.XPATH,"//android.view.View[@content-desc='ProfileTab 5 of 5']")
-# loginTab.click()
-driver.implicitly_wait(2)
+searchTab = driver.find_element(By.XPATH,"//android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/child::android.view.View[3]/child::android.view.View[2]")
+
+likedTab = driver.find_element(By.XPATH,"//android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/child::android.view.View[3]/child::android.view.View[3]")
+
+ticketsTab = driver.find_element(By.XPATH,"//android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/child::android.view.View[3]/child::android.view.View[1]")
+
+chooseEvent = driver.find_elements(By.XPATH,"//android.view.View[@content-desc='Learn']/child::android.widget.ImageView")
+
+
+driver.implicitly_wait(3)
+# logIn = allTabs[1]
+profileTab.click()
+
 
 loginButton = driver.find_element(AppiumBy.ACCESSIBILITY_ID, value='Log In')
 loginButton.click()
 
+###  Choosing to sign in with already signed up account not facebook nor google #######
 continueWith = driver.find_element(By.XPATH,"//android.widget.Button[@content-desc='Continue with email address']")
 continueWith.click()
-
-action = TouchAction(driver=driver)
 driver.implicitly_wait(3)
 enterEmail = driver.find_elements(AppiumBy.CLASS_NAME,"android.widget.EditText")
 enterEmail[0].click()
@@ -61,159 +76,201 @@ driver.implicitly_wait(2)
 enterEmail[0].send_keys("ahmedsaad_2009@live.com")
 ###  next button ##########
 driver.implicitly_wait(2)
-enterEmail = driver.find_elements(AppiumBy.CLASS_NAME,"android.widget.Button")
-enterEmail[1].click()
+# input()
+enterEmail = driver.find_element(AppiumBy.XPATH,"//android.widget.Button[@content-desc='Next']")
+enterEmail.click()
+
 
 ################  SignIn   #########################
+WebDriverWait(driver, 12).until(EC.presence_of_element_located((By.XPATH, "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View/android.view.View/android.widget.EditText")))
+
 password = driver.find_element(By.XPATH,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View/android.view.View/android.widget.EditText")
 password.click()
 driver.implicitly_wait(2)
 password.send_keys("123456789")
 ### Login Button ###########
+driver.implicitly_wait(3)
 loginButton = driver.find_element(By.XPATH,"//android.widget.Button[@content-desc='Log In']")
 loginButton.click()
-driver.implicitly_wait(3)
-# ####  just like defines  #########
-# confirmEmail = 0
-# firstName = 1
-# surName = 2
-# password = 3
-# ##################################
+# driver.implicitly_wait(20)
+WebDriverWait(driver, 12).until(EC.presence_of_element_located((By.XPATH,"//android.widget.Button[@content-desc='Log out']")))
+
+
+
+
+
+########Change profile name ################
+# driver.implicitly_wait(13)
+WebDriverWait(driver, 12).until(EC.presence_of_element_located((By.XPATH, "//android.view.View/android.view.View/android.view.View/android.view.View/child::android.widget.Button[1]")))
+
+
+editProfile = driver.find_element(AppiumBy.XPATH,"//android.view.View/android.view.View/android.view.View/android.view.View/child::android.widget.Button[1]")
+
+
+###   Edit name #########
+# editProfile.click()
+# nameProfile = driver.find_element(By.XPATH,"//android.view.View[@content-desc='Name']/android.widget.Button")
+# nameProfile.click()
+# # driver.push_file()
+# # Edit text
 # driver.implicitly_wait(2)
 # editTexts = driver.find_elements(AppiumBy.CLASS_NAME,"android.widget.EditText")
-# confirmEmail = editTexts[confirmEmail]
-# firstName = editTexts[firstName]
-# surName = editTexts[surName]
-# password = editTexts[password]
+# first = editTexts[0]
+# last = editTexts[1]
 
-# confirmEmail.click()
+# first.click()
 # driver.implicitly_wait(1)
-# confirmEmail.send_keys("yogilany@hotmail.com")
+# first.clear()
+# first.send_keys("koko")
 
 # driver.hide_keyboard()
-# firstName.click()
-# firstName.send_keys("youssef")
-
-# driver.hide_keyboard()
-# surName.click()
-# surName.send_keys("gilany")
-
-# driver.hide_keyboard()
-# password.click()
-# password.send_keys("gigrgrwgg52lany")
-
-# signUp = driver.find_element(By.XPATH,"//android.widget.Button[@content-desc='Sign Up']")
-# signUp.click()
+# last.click()
+# last.clear()
+# last.send_keys(" youssef")
 
 # driver.implicitly_wait(1)
-# agree = driver.find_element(By.XPATH,"//android.widget.Button[@content-desc='Agree']")
-# agree.click()
+# saveChanges = driver.find_element(By.XPATH,"//android.widget.Button[@content-desc='Save Changes']")
+# saveChanges.click()
+#####################################################################
 
 
+######### Change profile picture ############
+# driver.implicitly_wait(13)
+# editProfile.click()
+# uploadPicture = driver.find_element(AppiumBy.XPATH,"//*[@content-desc='Update Picture']")
+# # driver.push_file(uploadPicture,None,"/Internal storage/DCIM/Screenshots/Omar.jpg")
+# # uploadPicture.send_keys("/Internal storage/DCIM/Screenshots/Omar.jpg")
+
+# uploadPicture.click()
+# photoOptions = driver.find_elements(By.ID,"com.google.android.documentsui:id/icon_thumb")
+
+# photoOptions[0].click()
 
 
-###    Switching To home Tab #########
-actions = ActionChains(driver)
-actions.w3c_actions = ActionBuilder(driver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch"))
-actions.w3c_actions.pointer_action.move_to_location(160, 2194)
-actions.w3c_actions.pointer_action.pointer_down()
-actions.w3c_actions.pointer_action.pause(0.1)
-actions.w3c_actions.pointer_action.release()
-actions.perform()
+#####################   Manage Events  ####################
 
-## add to liked list ######
-driver.implicitly_wait(2)
-likes = driver.find_elements(By.XPATH,"//android.view.View[@content-desc='Tech']/android.widget.Button[3]")
-like = likes[0]
-b = like.get_attribute('bounds')
-print(type(b))
-b =list(b)
+manageEvents = driver.find_element(AppiumBy.ACCESSIBILITY_ID,"Manage Events")
+manageEvents.click()
+## plus button ##
+# /hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View/android.widget.Button
+WebDriverWait(driver, 12).until(EC.presence_of_element_located((By.XPATH, "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View/android.widget.Button")))
 
-listOfCoordinates = list()
-i  =0
-while i < len(b)-1:
-    if (b[i] == '['): i+= 1 ;continue
-    tempBuff =""
-    while not (b[i] == ',' or b[i] == ']'):
-        tempBuff  += b[i]
-        i += 1
-    i += 1
-    listOfCoordinates.append(int(tempBuff))
+plusButton = driver.find_element(By.XPATH,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View[2]/android.view.View/android.view.View/android.widget.Button")
+plusButton.click()
+WebDriverWait(driver, 12).until(EC.presence_of_element_located((By.XPATH, "//android.widget.EditText")))
 
-print(listOfCoordinates)
-xC = (listOfCoordinates[0] + listOfCoordinates[1]) /2
-yC = (listOfCoordinates[2] + listOfCoordinates[3]) /2
+eventTitle = driver.find_element(By.XPATH,"//android.widget.EditText")
+eventTitle.send_keys("balady vs sorra")
 
-print(xC)
-print(yC)
-
-driver.implicitly_wait(2)
-actions.w3c_actions._pointer_action.move_to_location(xC,yC)
-actions.w3c_actions.pointer_action.pointer_down()
-actions.w3c_actions.pointer_action.pause(0.1)
-actions.w3c_actions.pointer_action.release()
-actions.perform()
+nextButton = driver.find_element(By.XPATH,"//android.widget.Button")
+nextButton.click()
 
 
+summary = driver.find_element(By.XPATH,"//android.widget.EditText")
+summary.send_keys("This is a brief summary")
+nextButton = driver.find_element(By.XPATH,"//android.widget.Button")
+nextButton.click()
 
-
+dayButton = driver.find_element(By.XPATH,"(//android.view.View[@content-desc='Day'])[1]")
+dayButton.click()
+##  parse date and remove the first two commas ######
 driver.implicitly_wait(5)
-##   Clicking on the favorites
-actions = ActionChains(driver)
-actions.w3c_actions = ActionBuilder(driver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch"))
-actions.w3c_actions.pointer_action.move_to_location(470, 2194)
-actions.w3c_actions.pointer_action.pointer_down()
-actions.w3c_actions.pointer_action.pause(0.1)
-actions.w3c_actions.pointer_action.release()
-actions.perform()
-###############
+days = driver.find_elements(By.XPATH,"//android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/child::android.view.View")
+
+
+matchedDay = "27"
+matchedDay_2 = "30"
+
+for day in days:
+  # attr = day.get_property("text")
+  # print(attr)
+  attr = day.get_attribute("contentDescription")
+  # print(attr)
+  if attr == None: continue
+  for i in attr:
+     if (i == '2'):
+        tempStr = ""
+        for j in attr:
+           if j != ',': tempStr += j
+           else: break
+        print(tempStr)
+        if (tempStr == matchedDay): day.click();break 
+        # print(attr)
+        break
+
+okButton = driver.find_element(By.XPATH,"//android.widget.Button[@content-desc='OK']")
+okButton.click()
+hoursMinutes = driver.find_element(By.XPATH,"(//android.view.View[@content-desc='Day'])[1]")
+hoursMinutes.click()
+driver.implicitly_wait(3)
+keyboard = driver.find_element(By.XPATH,"//android.view.View[@content-desc='SELECT TIME']/android.widget.Button[1]")
+keyboard.click()
+driver.implicitly_wait(5)
+hour = driver.find_element(AppiumBy.XPATH,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View/android.view.View/android.widget.EditText[1]")
+
+hour.click()
+hour.clear()
+hour.send_keys("3")
+
+minute = driver.find_element(AppiumBy.XPATH,"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.View/android.view.View/android.view.View[1]/android.view.View/android.view.View/android.view.View/android.widget.EditText[2]")
+
+minute.click()
+minute.clear()
+minute.send_keys("3")
+
+okButton = driver.find_element(By.XPATH,"//android.widget.Button[@content-desc='OK']")
+okButton.click()
+
+##############   Repeat again ##########################
+########################################################
+########################################################
+dayButton = driver.find_element(By.XPATH,"(//android.view.View[@content-desc='Day'])[1]")
+dayButton.click()
+##  parse date and remove the first two commas ######
+driver.implicitly_wait(5)
+days = driver.find_elements(By.XPATH,"//android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/android.view.View/child::android.view.View")
+
+for day in days:
+  # attr = day.get_property("text")
+  # print(attr)
+  attr = day.get_attribute("contentDescription")
+  # print(attr)
+  if attr == None: continue
+  for i in attr:
+     if (i == '2'):
+        tempStr = ""
+        for j in attr:
+           if j != ',': tempStr += j
+           else: break
+        print(tempStr)
+        if (tempStr == matchedDay_2): day.click();break 
+        # print(attr)
+        break
 
 
 
-###### change profile #########
-driver.implicitly_wait(2)
-actions = ActionChains(driver)
-actions.w3c_actions = ActionBuilder(driver, mouse=PointerInput(interaction.POINTER_TOUCH, "touch"))
-actions.w3c_actions.pointer_action.move_to_location(959, 2194)
-actions.w3c_actions.pointer_action.pointer_down()
-actions.w3c_actions.pointer_action.pause(0.1)
-actions.w3c_actions.pointer_action.release()
-actions.perform()
-################
-
-#####  Click on edit ############
-editProfile = driver.find_elements(By.XPATH,"//android.widget.Button")
-editProfile[0].click()
-
-nameProfile = driver.find_element(By.XPATH,"//android.widget.Button[@content-desc='Ahmed Saad']")
-nameProfile.click()
-
-# Edit text
-driver.implicitly_wait(2)
-editTexts = driver.find_elements(AppiumBy.CLASS_NAME,"android.widget.EditText")
-first = editTexts[0]
-last = editTexts[1]
-
-first.click()
-driver.implicitly_wait(1)
-first.send_keys("koko")
-
-driver.hide_keyboard()
-last.click()
-last.send_keys("  youssef")
-
-driver.implicitly_wait(1)
-saveChanges = driver.find_element(By.XPATH,"//android.widget.Button[@content-desc='Save Changes']")
-saveChanges.click()
 
 
-driver.implicitly_wait(7)
-driver.implicitly_wait(1)
-logOut = driver.find_element(By.XPATH,"//android.widget.Button[@content-desc='Log out']")
-logOut.click()
+# for hour in hours:
+#     attr = day.get_attribute("contentDescription")
+#     print(attr)
+#     if attr == None: continue
+#     for i in attr:
+#       if (i == '2'):
+#           tempStr = ""
+#           for j in attr:
+#             if j != ',': tempStr += j
+#             else: break
+#           if (tempStr == matchedDay): day.click();break 
+#           print(attr)
+#           break
+
+# dayButton.send_keys("23")
+
+# logOut = driver.find_element(By.XPATH,"//android.widget.Button[@content-desc='Log out']")
+# logOut.click()
 
 
 
 input()
 driver.quit()
-# driver.AC_ON()

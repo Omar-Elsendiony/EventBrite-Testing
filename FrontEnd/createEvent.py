@@ -90,8 +90,8 @@ try:
     select.select_by_visible_text('Attraction')
     #############################################
     eventCategory = driver.find_element(By.ID,"eventSubTopic")
-    select = Select(driver.find_element(By.ID,"eventSubTopic"))
-    select.select_by_visible_text('Seasonal')
+    # select = Select(webelement=)
+    # select.select_by_visible_text(text=)
     #############################################
     eventSubCategory = driver.find_element(By.ID,"subTopic")
     select = Select(driver.find_element(By.ID,"subTopic"))
