@@ -6,30 +6,29 @@ export let options = {
     insecureSkipTLSVerify: true,
     noConnectionReuse: false,
     thresholds: {
-        http_req_duration: ['p(95)<2000'] // el 1750 dyh milli seconds
-                                         // checks if the fastest 90% have finished their requests in less than 1050 ms
+        http_req_duration: ['p(80)<2000'] 
     },
     stages: [
         // Below average load
-        { duration: '20s', target: 80 },  // raises users from 0 to 80 in 20 seconds
-        { duration: '20s', target: 80 },  // keeps users at that number for 20 seconds
+        { duration: '30s', target: 80 },  // raises users from 0 to 80 in 20 seconds
+        { duration: '30s', target: 80 },  // keeps users at that number for 20 seconds
 
         // Average load        
-        { duration: '20s', target: 120 },  // raises users from 80 to 120 in 20 seconds
-        { duration: '20s', target: 120 },  // keeps users at that number for 20 seconds
+        { duration: '30s', target: 120 },  // raises users from 80 to 120 in 20 seconds
+        { duration: '30s', target: 120 },  // keeps users at that number for 20 seconds
 
         // Server starts giving errors at around 140-150
 
         // Above average load (server about to shut down)
-        { duration: '20s', target: 175 },  // raises users from 120 to 175 in 20 seconds
-        { duration: '20s', target: 175 },  // keeps users at that number for 20 seconds
+        { duration: '30s', target: 175 },  // raises users from 120 to 175 in 20 seconds
+        { duration: '30s', target: 175 },  // keeps users at that number for 20 seconds
 
         // // This is even going further beyond
-        { duration: '20s', target: 200 },  // raises users from 175 to 200 in 20 seconds
-        { duration: '20s', target: 200 },  // keeps users at that number for 20 seconds
+        { duration: '30s', target: 200 },  // raises users from 175 to 200 in 20 seconds
+        { duration: '30s', target: 200 },  // keeps users at that number for 20 seconds
 
         // // Recovery stage
-        { duration: '2m', target: 0 },  // returns to 0 users.
+        { duration: '4m', target: 0 },  // returns to 0 users.
 
     ],
     // vus :1,
@@ -133,15 +132,21 @@ export default () => {
         }
     }
     if (idUser != null){
-        console.log(idUser)
+        // console.log(idUser)
+        // /users/id/{user_id}/info
+        let response = http.get(API_BASE_URL+'/users/id/'+idUser+"/info")
+        check(response, {
+            'is status 200': (r) => r.status === 200
+        });
     }
+
+
+
 
     // const requests_2 = http.batch([
     //     catReq,getCategoryByName,getCategorySubCategories,checkEmail,getAvatar,userInfo,
     //     liked,followingInfo
     // ]);
-
-
     // let body = urlencode({ username: "ahmedsaad_2009@live.com", password: "123456789" });
     
     params = { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
@@ -168,8 +173,6 @@ export default () => {
     // resp =  http.post(API_BASE_URL+'/auth/forgot-password', payload, params);
     // responses.push(resp)
     // console.log(resp.body);
-
-
 
     for (let i = 0 ; i < responses.length;i++){
         check(responses[i], {
